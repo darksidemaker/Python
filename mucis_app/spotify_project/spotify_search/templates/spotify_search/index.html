@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Artist Search</title>
+    <script>
+        function validateForm() {
+            var artistName = document.getElementById("artist_name").value.trim();
+            if (artistName === "") {
+                alert("Please enter an artist name.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
+    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+</head>
+
+<body style="background-color: grey;">
+    <a href="/login">cLick me</a>
+    <h1>Spotify Artist Search</h1>
+    <form method="post" action="{% url 'search' %}" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <label for="artist_name">Enter Artist Name:</label>
+        <input type="text" name="artist_name" id="artist_name">
+        <button type="submit">Search</button>
+    </form>
+    {% if message %}
+    <p>{{ message }}</p>
+
+    {% endif %}
+    div
+    <h3>Relatable Artist:</h3>
+    <ul>
+        {% for artist in artists %}
+        <div style="display: flex;">
+            <li style="margin:10px 0 ;">
+                <div style="display: flex;">
+                    {% if artist.images %}
+                    <img src="{{ artist.images.0.url }}" alt="{{ artist.name }} Image" height="50px"
+                        style="margin-right: 5px; border-radius: 4px;">
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                    <span
+                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                        {{ artist.name }}</span>
+                </div>
+            </li>
+        </div>
+        {% endfor %}
+    </ul>
+
+    <h3>Relatable Artist:</h3>
+    <ul>
+        {% for track in tracks %}
+        <div style="display: flex;">
+            <li style="margin:10px 0 ;">
+                <div style="display: flex;">
+                    {% if track.album.images.0.url %}
+                    <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} Image" height="50px"
+                        style="margin-right: 5px; border-radius: 4px;">
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                    <span
+                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{track.name}}
+                    </span>
+                </div>
+
+                <iframe src="https://open.spotify.com/embed/track/{{ track.id }}" width="300" height="380"
+                    frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+        </div>
+        {% endfor %}
+    </ul>
+
+    <!-- <h3>Top Tracks:</h3>
+    <ul>
+        {% for song in songs %}
+        <li>{{ song.name }}</li>
+        {% endfor %}
+    </ul> -->
+</body>
+
+</html>

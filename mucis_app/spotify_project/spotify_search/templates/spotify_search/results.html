@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+<div style="display: flex;">
+    {% if artist.images %}
+    <img src="{{ artist.images.0.url }}" alt="{{ artist.name }} Image" height="30px" style="margin-right: 5px;"> 
+    {% else %}
+    <p>No image available</p>
+    {% endif %}
+    <span style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large;">{{ artist.name }}</span>
+</div>
+    
+    <h3>Top Tracks:</h3>
+    <ul>
+        {% for song in songs %}
+            <li>{{ song.name }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
