@@ -9,7 +9,7 @@ token_url='https://accounts.spotify.com/api/token'
 api_base='https://api.spotify.com/v1/'
 
 
-SPOTIFY_REDIRECT_URI = 'https://stunning-fiesta-jvp949qrq6x3qgpp-8000.app.github.dev/callback'
+SPOTIFY_REDIRECT_URI = 'https://refactored-winner-p459g9p7p7x2g7g-8000.app.github.dev/callback'
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 # auth_url='https://accounts.spotify.com/authorize'
