@@ -38,23 +38,28 @@ def login(request):
     return redirect(auth_url_me)
 
 def callback(request):
-    # if 'error' in request.args:
-    #     return render('profile/profile.html',{'error': request.args['error']})
+    print(request.GET)
+    if 'error' in request.GET:    
+        return render('profile/profile.html',{'error': request.args['error']})
     
-    if 'code' in request.args:
+    if 'code' in request.GET:
+    
+        authorization_code = request.GET.get('code') 
+        print("authorization_code "+authorization_code)
         req_body={
-            'code' : request.args['code'],
+            'code' : request.GET['code'],
             'grant_type':'authorization_code',
-            'client_id':client_id,
+            'client_id': client_id,
             'client_secret': client_secret
-
         }
         
-        response = request.post(token_url, data=req_body)
+        response = requests.post(token_url, data=req_body)
         token_info = response.json()
+        print(token_info)
         
-        session['access_token'] = token_info['access_token']
-        session['refresh_token']=token_info['refresh_token']
-        session['expires_at']= datetime.now().timestamp() + token_info['expires_in']
+        request.session['access_token'] = token_info['access_token']
+        request.session['refresh_token']=token_info['refresh_token']
+        request.session['expires_at']= datetime.now().timestamp() + token_info['expires_in']
         
         return render('profile/profile.html',{'info': session})
+        # return HttpResponseRedirect('/profile/')
