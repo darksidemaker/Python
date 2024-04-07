@@ -56,3 +56,9 @@ def get_song(token, artist_id):
     json_result =  json.loads(result.content)["tracks"]
     return json_result
 
+# def user_top(token):
+#     url = f"https://api.spotify.com/v1/me/top/tracks?limit=10"
+#     headers = get_auth_header(token)
+#     result = get(url, headers=headers)
+#     json_result =  json.loads(result.content)
+#     return json_result

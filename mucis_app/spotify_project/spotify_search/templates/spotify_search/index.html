@@ -31,7 +31,28 @@
     <p>{{ message }}</p>
 
     {% endif %}
-    div
+    
+    <h3>Recommanded:</h3>
+    <ul>
+        {% for artist in artists %}
+        <div style="display: flex;">
+            <li style="margin:10px 0 ;">
+                <div style="display: flex;">
+                    {% if artist.images %}
+                    <img src="{{ artist.images.0.url }}" alt="{{ artist.name }} Image" height="50px"
+                        style="margin-right: 5px; border-radius: 4px;">
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                    <span
+                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                        {{ artist.name }}</span>
+                </div>
+            </li>
+        </div>
+        {% endfor %}
+    </ul>
+
     <h3>Relatable Artist:</h3>
     <ul>
         {% for artist in artists %}
@@ -66,8 +87,7 @@
                     <p>No image available</p>
                     {% endif %}
                     <span
-                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{track.name}}
-                    </span>
+                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{ track.name }}</span>
                 </div>
 
                 <iframe src="https://open.spotify.com/embed/track/{{ track.id }}" width="300" height="380"

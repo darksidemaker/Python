@@ -3,11 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>User Profile</title>
 </head>
 <body>
-    <h1>{{error}}</h1>
-    <h2>{{session.access_token}}</h2>
-    
+    <h2>User Profile</h2>
+    <p><strong>Display Name:</strong> {{ display_name }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <!-- Add additional profile details as needed -->
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+    <h3>Recommanded:</h3>
+    <ul>
+        {% for song in songs %}
+        <div style="display: flex;">
+            <li style="margin:10px 0 ;">
+                <div style="display: flex;">
+                    {% if artist.images %}
+                    <img src="{{ song.images.0.url }}" alt="{{ song.name }} Image" height="50px"
+                        style="margin-right: 5px; border-radius: 4px;">
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                    <span
+                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{ song.name }}</span>
+                </div>
+            </li>
+        </div>
+        {% endfor %}
+    </ul>
+
 </body>
 </html>
