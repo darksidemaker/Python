@@ -2,6 +2,9 @@ import os
 import base64
 from requests import post, get
 import json
+import spotipy
+
+
 # SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback'
 
 auth_url='https://accounts.spotify.com/authorize'
@@ -12,6 +15,7 @@ api_base='https://api.spotify.com/v1/'
 SPOTIFY_REDIRECT_URI = 'https://refactored-winner-p459g9p7p7x2g7g-8000.app.github.dev/callback'
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
+# oauth2 = spotipy.oauth2.SpotifyOAuth(client_id, client_secret)
 # auth_url='https://accounts.spotify.com/authorize'
 
 def get_token():

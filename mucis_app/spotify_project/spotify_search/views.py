@@ -34,46 +34,6 @@ def login(request):
     scope = 'user-read-private user-read-email'  # Adjust scope based on your requirements
     spotify_authorize_url = f'https://accounts.spotify.com/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}'
     return redirect(spotify_authorize_url)
-# def login(request):
-#     scope = 'user-read-private user-read-email'
-#     prame={
-#       'response_type': 'code',
-#       'client_id': client_id,
-#       'scope': scope,
-#       'redirect_uri': SPOTIFY_REDIRECT_URI,
-#       'show_dilog': True
-#     }
-#     auth_url_me = f"{auth_url}?{urllib.parse.urlencode(prame)}"
-#     return redirect(auth_url_me)
-
-# def callback(request):
-#     print(request.GET)
-#     if 'error' in request.GET:    
-#         return render('profile/profile.html',{'error': request.args['error']})
-    
-#     if 'code' in request.GET:
-    
-#         authorization_code = request.GET.get('code') 
-#         print("authorization_code "+authorization_code)
-#         req_body={
-#             'code' : request.GET['code'],
-#             'grant_type':'authorization_code',
-#             'client_id': client_id,
-#             'client_secret': client_secret
-#         }
-        
-#         response = requests.post(token_url, data= req_body)
-#         token_info = response.json()
-#         print(token_info)
-        
-#         request.session['access_token'] = token_info['access_token']
-#         request.session['refresh_token']=token_info['refresh_token']
-#         request.session['expires_at']= datetime.now().timestamp() + token_info['expires_in']
-        
-#         return render('profile/profile.html',{'info': request.session})
-#         # return HttpResponseRedirect('/profile/')
-
-
 
 def callback(request):
     if 'code' in request.GET:
@@ -96,7 +56,21 @@ def callback(request):
         if access_token:
             request.session['access_token'] = access_token
             # Redirect to profile or home page
-            return redirect('profile')
+            # return redirect('profile')
+            profile_url = 'https://api.spotify.com/v1/me'
+            headers = {
+                'Authorization': f'Bearer {access_token}'
+                }
+            response = requests.get(profile_url, headers=headers)
+            print(access_token)
+            if response.status_code == 200:
+            # Parse JSON response
+                profile_data = response.json()
+            # Extract relevant profile details
+                display_name = profile_data.get('display_name')
+                email = profile_data.get('email')
+            # Pass profile details to template for rendering
+                return render(request, 'profile/profile.html', {'display_name': display_name, 'email': email})
     return render(request, 'login.html')
 
 
