@@ -71,6 +71,8 @@ def callback(request):
                 email = profile_data.get('email')
             # Pass profile details to template for rendering
                 return render(request, 'profile/profile.html', {'display_name': display_name, 'email': email})
+            else:
+                return render(request, 'profile/profile.html', {'error_message': 'Failed to fetch user profile'})
     return render(request, 'login.html')
 
 

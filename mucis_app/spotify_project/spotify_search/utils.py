@@ -13,9 +13,13 @@ api_base='https://api.spotify.com/v1/'
 
 
 SPOTIFY_REDIRECT_URI = 'https://refactored-winner-p459g9p7p7x2g7g-8000.app.github.dev/callback'
+# redirect_uri = os.getenv("SPOTIPY_REDIRECT_URI")
+redirect_uri = SPOTIFY_REDIRECT_URI
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 # oauth2 = spotipy.oauth2.SpotifyOAuth(client_id, client_secret)
+oauth2 = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri))
+
 # auth_url='https://accounts.spotify.com/authorize'
 
 def get_token():
