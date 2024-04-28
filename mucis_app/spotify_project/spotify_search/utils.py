@@ -3,8 +3,6 @@ import base64
 from requests import post, get
 import json
 import spotipy
-
-
 # SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback'
 
 auth_url='https://accounts.spotify.com/authorize'
@@ -19,6 +17,13 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 # oauth2 = spotipy.oauth2.SpotifyOAuth(client_id, client_secret)
 oauth2 = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri))
+client = spotipy.Spotify(oauth2)
+
+# Search for a track
+track = client.search(q='The Beatles - Hey Jude')
+
+# Play the track
+client.start_playback(uris=[track['tracks']['items'][0]['uri']])
 
 # auth_url='https://accounts.spotify.com/authorize'
 
