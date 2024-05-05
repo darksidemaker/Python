@@ -3,6 +3,9 @@ import base64
 from requests import post, get
 import json
 import spotipy
+from ytmusicapi import YTMusic
+
+ytmusic = YTMusic()
 # SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback'
 
 auth_url='https://accounts.spotify.com/authorize'
@@ -75,3 +78,7 @@ def get_song(token, artist_id):
 #     result = get(url, headers=headers)
 #     json_result =  json.loads(result.content)
 #     return json_result
+
+
+def ytmusic(name):
+    
