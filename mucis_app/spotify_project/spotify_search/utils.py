@@ -22,11 +22,11 @@ client_secret = os.getenv("CLIENT_SECRET")
 oauth2 = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri))
 client = spotipy.Spotify(oauth2)
 
-# Search for a track
-track = client.search(q='The Beatles - Hey Jude')
+# # Search for a track
+# track = client.search(q='The Beatles - Hey Jude')
 
-# Play the track
-client.start_playback(uris=[track['tracks']['items'][0]['uri']])
+# # Play the track
+# client.start_playback(uris=[track['tracks']['items'][0]['uri']])
 
 # auth_url='https://accounts.spotify.com/authorize'
 
@@ -78,7 +78,3 @@ def get_song(token, artist_id):
 #     result = get(url, headers=headers)
 #     json_result =  json.loads(result.content)
 #     return json_result
-
-
-def ytmusic(name):
-    

@@ -8,6 +8,16 @@ import  urllib.parse
 from django.shortcuts import redirect, render
 import requests
 
+# views.py
+from django.http import FileResponse
+from django.conf import settings
+import os
+
+def stream_audio(request):
+    # audio_file_path = os.path.join(settings.MEDIA_ROOT, 'media', 'Daku.mp3')
+    return FileResponse(open('/workspaces/Python/mucis_app/spotify_project/spotify_search/media/Daku.mp3', 'rb'), content_type='audio/mp3')
+
+
 def index(request):
     return render(request, 'spotify_search/index.html')
 

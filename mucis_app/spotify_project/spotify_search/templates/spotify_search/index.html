@@ -29,9 +29,11 @@
     </form>
     {% if message %}
     <p>{{ message }}</p>
-
     {% endif %}
-    
+    <audio controls>
+        <source src="{% url 'stream_audio' %}" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
     <h3>Recommanded:</h3>
     <ul>
         {% for artist in artists %}
@@ -87,7 +89,8 @@
                     <p>No image available</p>
                     {% endif %}
                     <span
-                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{ track.name }}</span>
+                        style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{
+                        track.name }}</span>
                 </div>
 
                 <iframe src="https://open.spotify.com/embed/track/{{ track.id }}" width="300" height="380"
