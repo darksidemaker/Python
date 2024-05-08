@@ -7,8 +7,6 @@ import requests
 import  urllib.parse
 from django.shortcuts import redirect, render
 import requests
-
-# views.py
 from django.http import FileResponse
 from django.conf import settings
 import os
