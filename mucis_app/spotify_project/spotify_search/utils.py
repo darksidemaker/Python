@@ -2,7 +2,6 @@ import os
 import base64
 from requests import post, get
 import json
-import spotipy
 from ytmusicapi import YTMusic
 
 ytmusic = YTMusic()
@@ -19,8 +18,8 @@ redirect_uri = SPOTIFY_REDIRECT_URI
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 # oauth2 = spotipy.oauth2.SpotifyOAuth(client_id, client_secret)
-oauth2 = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri))
-client = spotipy.Spotify(oauth2)
+#oauth2 = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri))
+#client = spotipy.Spotify(oauth2)
 
 # # Search for a track
 # track = client.search(q='The Beatles - Hey Jude')

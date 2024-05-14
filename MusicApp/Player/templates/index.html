@@ -1,18 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function validateForm() {
+            var artistName = document.getElementById("name").value.trim();
+            if (artistName === "") {
+                alert("Please enter an artist name.");
+                return false;
+            }
+            return true;
+        }
+
+        const basicAutocomplete = document.querySelector('#search-autocomplete');
+        const data = ['One', 'Two', 'Three', 'Four', 'Five'];
+        const dataFilter = (value) => {
+            return data.filter((item) => {
+                return item.toLowerCase().startsWith(value.toLowerCase());
+            });
+        };
+
+        new mdb.Autocomplete(basicAutocomplete, {
+            filter: dataFilter
+        });
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #113727, #1dd1a1);
+        } */
+
+        .player {
+            width: 300px;
+            background: #fff;
+            /*   margin: 100px; */
+            padding: 20px 14px 8px 14px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 10px 2px 90px -11px rgba(13, 100, 76, 0.75);
+            -webkit-box-shadow: 10px 2px 90px -11px rgba(13, 100, 76, 0.75);
+            -moz-box-shadow: 10px 2px 90px -11px rgba(13, 100, 76, 0.75);
+        }
+
+        .imgBx img {
+            width: 100%;
+            height: auto;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .player audio {
+            width: 100%;
+            border-radius: 6px;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+    </style>
     <title>Document</title>
 </head>
+
 <body>
-    <form method="post" action="{% url 'get_song' %}">
-        <!-- {% csrf_token %} -->
+    <form method="post" action="{% url 'get_song' %}" onsubmit="return validateForm()">
+        {% csrf_token %}
         <label for="name">Enter Artist Name:</label>
         <input type="text" name="name" id="name">
         <button type="submit">Search</button>
     </form>
+    <!-- <div class="form-group">
+        <form method="post" action="{% url 'get_song' %}" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <label for="name">Enter Artist Name:</label>
+            <input type="text" name="name" id="name">
+            <label for="name">Search</label>
+            <input type="text" class="form-control" placeholder="Search" list="list" id="name">
+            <button type="submit">Search</button>
+            <datalist id="list">
+                <option></option>
+            </datalist>
+        </form>
+    </div>
 
-    <p>{{ name }}</p>
+    <script>
+        document.addEventListener('DOMContentLoaded', e => {
+            $('#input-datalist').autocomplete()
+        }, false);
+    </script> -->
+
+    <p>{{ results }}</p>
+
+    <ul>
+        {% for result in results %}
+        {% if result.resultType == 'artist' %}
+        <div style="display: flex;">
+            <li style="margin:10px 0 ;">
+                <div style="display: flex;">
+                    {% if result.thumbnails %}
+                    <div class="player">
+                        <div class="imgBx">
+                            <img src="{{ result.thumbnails.1.url }}" alt="{{ result.artists.0.name }}" height="120px"
+                                style="margin-right: 5px; border-radius: 4px;">
+                            <span
+                                style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                                {{ result.artists.0.name }}</span>
+                            <a href="{% url 'clicked' result.artists.0.id %}">{{ result.artists.0.name }}</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                </div>
+                <a href="https://music.youtube.com/channel/{{ result.artists.0.id }}">{{ result.artists.0.name }}</a>
+                <p>{{result.thumbnails.1.url}}</p>
+            </li>
+        </div>
+        {% else %}
+        <div style="display: flex;">
+            <li style="margin:10px 0 ;">
+                <div style="display: flex;">
+                    {% if result.thumbnails %}
+                    <div class="player">
+                        <div class="imgBx">
+                            <img src="{{ result.thumbnails.1.url }}" alt="{{ result.title }}" height="100px"
+                                style="margin-right: 5px; border-radius: 4px;">
+                            <span
+                                style="display: flex; align-items: center; width: max-content; font-weight: 900; font-size: x-large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                                {{ result.title }}</span>
+                        </div>
+                        <audio controls>
+                            <source src="http://shaury.com/luka-chuppi-duniyaa.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+
+                </div>
+            </li>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </ul>
 </body>
+
 </html>

@@ -1,43 +1,17 @@
 from ytmusicapi import YTMusic
 
 ytmusic = YTMusic() 
-# from ytmusicapi import YTMusic
-# ytmusic = YTMusic("oauth.json")
-# playlistId = ytmusic.create_playlist("test", "test description")
 
-# name= input("Enter song name:")
-name = 'daku'
+name= input("Enter song name:")
+
 search_results = ytmusic.search(name)
-# Print the numbers from 1 to 10
-for i in range(0, 11):
-	if search_results[i]['category'] == 'Songs':
-  		print(search_results[i]['title'])
-   		
 
 vId=search_results[1]['videoId']
-# vD= search_results[1]['duration_seconds']
-
-
-# import requests
-
-# url = "https://youtube-to-mp315.p.rapidapi.com/download"
-
-# querystring = {"url":"https://www.youtube.com/watch?v="+vId,"endTime": vD,"format":"mp3"}
-
-# payload = {}
-# headers = {
-# 	"content-type": "application/json",
-# 	"X-RapidAPI-Key": "413274f3abmsh08272ab528a1e6dp1d00fdjsn6feda39036b4",
-# 	"X-RapidAPI-Host": "youtube-to-mp315.p.rapidapi.com"
-# }
-
-# response = requests.post(url, json=payload, headers=headers, params=querystring)
-
-# print(response.json())
-# # ytmusic.add_playlist_items(playlistId, [search_results[1]['videoId']])
 
 video_url="https://www.youtube.com/watch?v="+vId
 output_path="/workspaces/Python/YTMusic/mp3file"
+print(video_url)
+print(search_results[1])
 from pytube import YouTube
 
 def download_audio(video_url, output_path):
@@ -45,6 +19,7 @@ def download_audio(video_url, output_path):
         yt = YouTube(video_url)
         audio_stream = yt.streams.filter(only_audio=True).first()
         audio_stream.download(output_path)
+        print(audio_stream.download(output_path))
         print("Audio downloaded successfully!")
     except Exception as e:
         print("Error:", e)
@@ -52,16 +27,23 @@ def download_audio(video_url, output_path):
 
 # download_audio(video_url, output_path)
 
+import pytube
+import os
 
-from flask import Flask, send_file
+try:
+ 
+ 
+    video = pytube.YouTube(video_url).streams.filter(only_audio=True).first().download(output_path)
 
-app = Flask(__name__)
+    base, ext = os.path.splitext(video)
 
-@app.route('/stream_audio')
-def stream_audio():
-    # Replace 'audio_file_path' with the path to your audio file
-    audio_file_path = '/workspaces/Python/YTMusic/mp3file/Daku.mp3'
-    return send_file(audio_file_path, mimetype='audio/mp3', as_attachment=False)
+    new_file = base + '.mp3'
+    os.rename(video, new_file)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+    yt = pytube.YouTube(video_url)
+    title = yt.title
+
+    print(f"{title} has been successfully downloaded in .mp3 format.")
+except Exception as e:
+    print("Error:", e)
